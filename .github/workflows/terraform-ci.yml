@@ -31,5 +31,5 @@ jobs:
         working-directory: terraform # 👈 Add this
 
       - name: Apply Terraform Changes
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -refresh-only
         working-directory: terraform # 👈 Add this
