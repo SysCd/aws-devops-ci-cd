@@ -28,6 +28,8 @@ jobs:
 
       - name: Initialize Terraform
         run: terraform init
+        working-directory: terraform # 👈 Add this
 
       - name: Apply Terraform Changes
         run: terraform apply -auto-approve
+        working-directory: terraform # 👈 Add this
