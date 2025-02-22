@@ -1,7 +1,7 @@
 # AWS DevOps CI/CD Pipeline
 
 ## Overview
-This project demonstrates a CI/CD pipeline for AWS deployments. Below is a diagram of the DevOps workflow:
+This project demonstrates a CI/CD pipeline for AWS deployments. Below is a custom-made, redesigned diagram of the DevOps workflow, specifically tailored for this project:
 
 ![DevOps Diagram](./images/devops.png)
 
