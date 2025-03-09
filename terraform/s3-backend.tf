@@ -1,9 +1,8 @@
 terraform {
   backend "s3" {
-    bucket         = "my-new-terraform-state-bucket-101010"  # Your S3 bucket name
-    key            = "state/terraform.tfstate"    # File path inside S3
-    region         = "eu-west-2"                  # AWS London region
-    encrypt        = true                         # Encrypt the state file
-    dynamodb_table = "terraform-locks"            # DynamoDB table for state locking
+    bucket         = "terraform-state-207567758913"  # Must create this S3 bucket first
+    region         = "eu-west-2"
+    encrypt        = true
+    dynamodb_table = "terraform-lock"  # Must create this DynamoDB table first
   }
 }
