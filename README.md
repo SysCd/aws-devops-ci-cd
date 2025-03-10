@@ -44,6 +44,38 @@ These diagrams provide a clear, step-by-step guide to setting up the AWS DevOps 
 
 Note: Both images are located in the `/images` folder for a complete overview of the project setup. Explore them to see how the infrastructure and application deployment come together!
 
-### Why It Matters
+## Terraform Fundamentals
 
-These visuals make it easy for anyone—whether an interviewer or a collaborator—to grasp the project’s structure and flow. They showcase the setup of a cost-effective EKS cluster with monitoring, ready for deployment.
+### Structure
+
+- **Files:** Write your infrastructure plan in `.tf` files (like blueprints).
+- **Blocks:** Use these main building blocks in your files:
+
+### Core
+
+- **Terraform Block:** Configures Terraform’s settings (e.g., version).
+  - Example: `required_version = "1.5.0"` (ensures a compatible version).
+- **Provider Block:** Selects the cloud platform to build on.
+  - Example: `provider "aws" { region = "us-east-1" }` (chooses AWS and a region).
+- **Variable Block:** Defines placeholders for adjustable values.
+  - Example: `variable "region" { default = "us-east-1" }` (allows easy updates).
+- **Resource Block:** Specifies the cloud resources to create (e.g., networks, servers).
+  - Example: `resource "aws_vpc" "my_vpc" { cidr_block = "10.0.0.0/16" }` (creates a network).
+
+### Storage
+
+- **Backend Block:** Stores the state file in a persistent location (e.g., cloud storage).
+  - Example: `backend "s3" { bucket = "my-bucket" }` (saves state in S3).
+
+### Support
+
+- **Depends On:** Ensures resources are built in the correct order.
+  - Example: `depends_on = [aws_vpc.my_vpc]` (waits for the network).
+- **Tags:** Labels resources for easy identification in the cloud.
+  - Example: `tags = { Name = "my-vpc" }` (names the network).
+
+### Terraform Commands
+
+- **`terraform init`:** Prepares Terraform by downloading tools and setting up.
+- **`terraform apply`:** Executes the plan to create or update resources.
+- **`terraform destroy`:** Removes all resources created by the plan.

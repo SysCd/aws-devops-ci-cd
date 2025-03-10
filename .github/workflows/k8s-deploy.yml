@@ -1,31 +1,30 @@
-name: Deploy to Kubernetes
+name: Deploy to Kubernetes #Names the GitHub Actions workflow as "Deploy to Kubernetes"
+on: #Defines the events that trigger the workflow
+  push: #Triggers on push events
+    branches: #Specifies the branches to monitor
+      - main #Runs the workflow when code is pushed to the "main" branch
+  workflow_dispatch: #Allows manual triggering of the workflow from the GitHub UI
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+jobs: #Defines the jobs to execute in the workflow
+  deploy: #Names the job "deploy"
+    name: Deploy App to EKS #Labels the job as "Deploy App to EKS" in the GitHub UI
+    runs-on: ubuntu-latest #Runs the job on the latest Ubuntu virtual machine
 
-jobs:
-  deploy:
-    name: Deploy App to EKS
-    runs-on: ubuntu-latest
+    steps: #Lists the sequential steps to perform in the job
+      - name: Checkout repository #Checks out the repository code
+        uses: actions/checkout@v4 #Uses the checkout action (version 4) to fetch the repo
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Configure AWS credentials #Configures AWS authentication for EKS access
+        uses: aws-actions/configure-aws-credentials@v2 #Uses the AWS credentials action (version 2)
+        with: #Passes AWS credential parameters
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} #Uses a GitHub secret for AWS access key
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} #Uses a GitHub secret for AWS secret key
+          aws-region: eu-west-2 #Sets the AWS region to eu-west-2 (London)
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-2
+      - name: Setup kubectl #Sets up the kubectl tool to interact with the EKS cluster
+        run: | #Runs a shell command
+          aws eks update-kubeconfig --region eu-west-2 --name my-eks-cluster  #Configures kubectl to connect to the EKS cluster named "my-eks-cluster"
 
-      - name: Setup kubectl
-        run: |
-          aws eks update-kubeconfig --region eu-west-2 --name my-eks-cluster
-
-      - name: Apply Kubernetes Manifests
-        run: |
-          kubectl apply -f k8s/
+      - name: Apply Kubernetes Manifests #Deploys the application to the EKS cluster
+        run: | #Runs a shell command
+          kubectl apply -f k8s/  #Applies all Kubernetes manifests (e.g., nginx-deployment.yml, nginx-service.yml) in the "k8s" directory

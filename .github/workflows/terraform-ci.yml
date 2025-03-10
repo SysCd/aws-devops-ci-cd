@@ -1,35 +1,34 @@
-name: Terraform CI/CD
+name: Terraform CI/CD #Names the GitHub Actions workflow as "Terraform CI/CD"
+on: #Defines the events that trigger the workflow
+  push: #Triggers on push events
+    branches: #Specifies the branches to monitor
+      - main #Runs the workflow when code is pushed to the "main" branch
 
-on:
-  push:
-    branches:
-      - main
+jobs: #Defines the jobs to execute in the workflow
+  terraform: #Names the job "terraform"
+    name: Terraform Apply #Labels the job as "Terraform Apply" in the GitHub UI
+    runs-on: ubuntu-latest #Runs the job on the latest Ubuntu virtual machine
 
-jobs:
-  terraform:
-    name: Terraform Apply
-    runs-on: ubuntu-latest
+    steps: #Lists the sequential steps to perform in the job
+      - name: Checkout repository #Checks out the repository code
+        uses: actions/checkout@v4 #Uses the checkout action (version 4) to fetch the repo
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Setup Terraform #Sets up the Terraform CLI environment
+        uses: hashicorp/setup-terraform@v3 #Uses the setup-terraform action (version 3) from HashiCorp
+        with: #Passes configuration parameters
+          terraform_version: 1.5.0 #Specifies Terraform version 1.5.0 to use
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.5.0
+      - name: Configure AWS credentials #Configures AWS authentication for Terraform
+        uses: aws-actions/configure-aws-credentials@v2 #Uses the AWS credentials action (version 2)
+        with: #Passes AWS credential parameters
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} #Uses a GitHub secret for AWS access key
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} #Uses a GitHub secret for AWS secret key
+          aws-region: eu-west-2 #Sets the AWS region to eu-west-2 (London)
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-2
+      - name: Initialize Terraform #Initializes the Terraform working directory
+        run: terraform init #Runs the "terraform init" command to download providers and modules
+        working-directory: terraform #Executes the command in the "terraform" subdirectory
 
-      - name: Initialize Terraform
-        run: terraform init
-        working-directory: terraform #
-
-      - name: Apply Terraform Changes
-        run: terraform apply -auto-approve -refresh-only
-        working-directory: terraform #
+      - name: Apply Terraform Changes #Applies the Terraform configuration
+        run: terraform apply -auto-approve -refresh-only #Runs "terraform apply" with auto-approval and refresh-only mode
+        working-directory: terraform #Executes the command in the "terraform" subdirectory
