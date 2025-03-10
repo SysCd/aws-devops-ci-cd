@@ -96,16 +96,6 @@ _Caption: Illustrates how Terraform stores and updates the state file using S3 a
 - **`terraform apply`:** Executes the plan to create or update resources.
 - **`terraform destroy`:** Removes all resources created by the plan.
 
-## Setup
-
-- **Prerequisites:** Configure AWS credentials as GitHub Secrets (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`).
-- **Installation:** Ensure Docker, Terraform, and kubectl are installed locally.
-- **Run Locally:**
-  - Navigate to the `terraform` directory: `cd terraform`.
-  - Initialize Terraform: `terraform init`.
-  - Apply configuration: `terraform apply` (type `yes` to confirm).
-- **CI/CD:** Workflows (`terraform-ci.yml`, `k8s-deploy.yml`, `docker-push.yml`) trigger on `main` branch pushes; check GitHub Actions for status.
-
 ## Footer
 
 © 2025 GitHub, Inc.
