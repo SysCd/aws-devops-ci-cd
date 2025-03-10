@@ -46,7 +46,7 @@ These diagrams provide a clear, step-by-step guide to setting up the AWS DevOps 
 
 ### Structure
 
-![Terracode Diagram](./images/Terracode.png)  
+![Terracode Diagram](./images/Terracode)  
 _Caption: Visual representation of Terraform code structure and file purposes._
 
 - **Files:** Write your infrastructure plan in `.tf` files (like blueprints).
@@ -64,6 +64,9 @@ _Caption: Visual representation of Terraform code structure and file purposes._
   - Example: `resource "aws_vpc" "my_vpc" { cidr_block = "10.0.0.0/16" }` (creates a network).
 
 ### Storage
+
+![Terraform State Diagram](./images/Terraform State.png)  
+_Caption: Illustrates how Terraform stores and updates the state file using S3 and DynamoDB for synchronization and locking._
 
 - **Backend Block:** Stores the state file in a persistent location (e.g., cloud storage).
   - Example: `backend "s3" { bucket = "my-bucket" }` (saves state in S3).
