@@ -42,11 +42,12 @@ These diagrams provide a clear, step-by-step guide to setting up the AWS DevOps 
 - **Architecture Diagram:** Maps the high-level design to detailed file configurations, highlighting key components like VPC, EKS cluster, node groups, and IAM roles.
 - **File Structure Diagram:** Breaks down the role of each file, making it easy to see how the project is organized and what each file does.
 
-Note: Both images are located in the `/images` folder for a complete overview of the project setup. Explore them to see how the infrastructure and application deployment come together!
-
 ## Terraform Fundamentals
 
 ### Structure
+
+![Terracode Diagram](./images/Terracode)  
+_Caption: Visual representation of Terraform code structure and file purposes._
 
 - **Files:** Write your infrastructure plan in `.tf` files (like blueprints).
 - **Blocks:** Use these main building blocks in your files:
