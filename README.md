@@ -44,6 +44,4 @@ These diagrams provide a clear, step-by-step guide to setting up the AWS DevOps 
 
 Note: Both images are located in the `/images` folder for a complete overview of the project setup. Explore them to see how the infrastructure and application deployment come together!
 
-### Why It Matters
 
-These visuals make it easy for anyone—whether an interviewer or a collaborator—to grasp the project’s structure and flow. They showcase the setup of a cost-effective EKS cluster with monitoring, ready for deployment.
