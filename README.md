@@ -46,7 +46,7 @@ These diagrams provide a clear, step-by-step guide to setting up the AWS DevOps 
 
 ### Structure
 
-![Terracode Diagram](./images/Terracode.png)  
+![Terracode Diagram](./images/terraformcode.png)  
 _Caption: Visual representation of Terraform code structure and file purposes._
 
 - **Files:** Write your infrastructure plan in `.tf` files (like blueprints).
