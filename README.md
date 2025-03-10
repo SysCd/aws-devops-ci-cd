@@ -65,7 +65,7 @@ _Caption: Visual representation of Terraform code structure and file purposes._
 
 ### Storage
 
-![T-State Diagram](./images/tstatepng)
+![T-State Diagram](./images/state.png)
 _Caption: Illustrates how Terraform stores and updates the state file using S3 and DynamoDB for synchronization and locking._
 
 - **Backend Block:** Stores the state file in a persistent location (e.g., cloud storage).
