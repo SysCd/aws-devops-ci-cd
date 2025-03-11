@@ -109,6 +109,24 @@ _Caption: Illustrates the CI/CD workflow: GitHub Actions builds and pushes a Doc
   5. **Kubernetes Creates Pod:** EKS orchestrates the Pod deployment.
   6. **Run Container:** Docker container runs the Nginx app on port 80.
 
+### Additional Kubernetes Example: KubernetesProject
+
+As an additional example of Kubernetes and EKS deployment, the `KubernetesProject` repository showcases a simple Nginx web server hosted on an EKS cluster in `eu-west-2`. This project demonstrates manual deployment of a Kubernetes cluster, including pod and service configuration, and exposes the web server via a LoadBalancer. The full project, including its architecture blueprint, can be found in the separate repository: [SysCd/kubernetesProject](https://github.com/SysCd/kubernetesProject).
+
+- **Architecture Blueprint:**
+  ![KubernetesProject EKS Blueprint: eu-west-2](https://github.com/SysCd/kubernetesProject/raw/main/KubernetesProject_EKS_Blueprint.png)  
+  _Caption: Illustrates the Kubernetes cluster setup on EKS, with an Nginx pod exposed via a LoadBalancer._
+
+- **Key Features:**
+
+  - **Cluster Setup:** EKS cluster in `eu-west-2` with `t3.small` nodes in the `WorkNodes` node group.
+  - **Pod and Service:** `web-pod` runs an Nginx container, exposed via a `LoadBalancer` service.
+  - **Storage:** Image sourced from AWS ECR (`207567758913.dkr.ecr.eu-west-2.amazonaws.com/kubernetesproject-web:latest`).
+  - **Networking:** ELB exposes the pod to the internet (`http://a73dee6fcb2e447f5bc8696917ebcfd0-534779837.eu-west-2.elb.amazonaws.com`).
+  - **Configuration:** Defined in `Web-Pod.yaml` and `Web-Service.yaml`.
+
+- **Purpose:** This project complements the CI/CD pipeline by showing a manual EKS deployment, focusing on Kubernetes fundamentals and pod exposure, with a detailed blueprint diagram.
+
 ## Footer
 
 © 2025 GitHub, Inc.
