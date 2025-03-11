@@ -96,6 +96,19 @@ _Caption: Illustrates how Terraform stores and updates the state file using S3 a
 - **`terraform apply`:** Executes the plan to create or update resources.
 - **`terraform destroy`:** Removes all resources created by the plan.
 
+### Docker and EKS Deployment Workflow
+
+![Docker EKS Flow Diagram](./images/DockerEKS.png)  
+_Caption: Illustrates the CI/CD workflow: GitHub Actions builds and pushes a Docker image to AWS ECR, which an EKS Worker Node pulls to run in a Kubernetes Pod managed by EKS._
+
+- **Steps:**
+  1. **Code Push:** Push to `main` branch triggers GitHub Actions (`docker-push.yml`).
+  2. **Docker Build:** Builds the image (`nginx:latest`).
+  3. **Push to AWS ECR:** Pushes image to `207567758913.dkr.ecr.eu-west-2.amazonaws.com`.
+  4. **EKS Worker Node Pulls Image:** Node retrieves the image from ECR.
+  5. **Kubernetes Creates Pod:** EKS orchestrates the Pod deployment.
+  6. **Run Container:** Docker container runs the Nginx app on port 80.
+
 ## Footer
 
 © 2025 GitHub, Inc.
