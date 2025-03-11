@@ -124,12 +124,15 @@ To maintain low costs while ensuring the necessary resources for the EKS Pods in
 ### Cost Optimization Measures
 
 - **Budget Alerts:** AWS Budgets were set up to monitor spending and receive email notifications when thresholds are exceeded.
+
   - Example Budgets:
-    | Name | Threshold | Budget | Amount Used |
-    |-----------------|-----------|---------|-------------|
-    | My Monthly Cost Budget | OK | $10.00 | $0.75 |
-    | My Monthly Cost Budget 15 | OK | $15.00 | $0.75 |
-    | My Monthly Cost Budget 20 | OK | $20.00 | $0.75 |
+
+    | Name                      | Threshold | Budget | Amount Used |
+    | ------------------------- | --------- | ------ | ----------- |
+    | My Monthly Cost Budget    | OK        | $10.00 | $0.75       |
+    | My Monthly Cost Budget 15 | OK        | $15.00 | $0.75       |
+    | My Monthly Cost Budget 20 | OK        | $20.00 | $0.75       |
+
 - **Resource Efficiency:** Pod resource `requests` and `limits` were considered to optimize usage on the `t3.small` instance (e.g., `cpu: "100m"`, `memory: "100Mi"` per Pod).
 
 ### Purpose
