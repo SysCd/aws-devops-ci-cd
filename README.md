@@ -126,7 +126,3 @@ As an additional example of Kubernetes and EKS deployment, the `KubernetesProjec
   - **Configuration:** Defined in `Web-Pod.yaml` and `Web-Service.yaml`.
 
 - **Purpose:** This project complements the CI/CD pipeline by showing a manual EKS deployment, focusing on Kubernetes fundamentals and pod exposure, with a detailed blueprint diagram.
-
-## Footer
-
-© 2025 GitHub, Inc.
