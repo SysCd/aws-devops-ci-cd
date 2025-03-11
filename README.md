@@ -109,7 +109,7 @@ _Caption: Illustrates the CI/CD workflow: GitHub Actions builds and pushes a Doc
   5. **Kubernetes Creates Pod:** EKS orchestrates the Pod deployment.
   6. **Run Container:** Docker container runs the Nginx app on port 80.
 
-### Additional Kubernetes Example: KubernetesProject
+## Additional Kubernetes Example: KubernetesProject
 
 As an additional example of Kubernetes and EKS deployment, the `KubernetesProject` repository showcases a simple Nginx web server hosted on an EKS cluster in `eu-west-2`. This project demonstrates manual deployment of a Kubernetes cluster, including pod and service configuration, and exposes the web server via a LoadBalancer. The full project, including its architecture blueprint, can be found in the separate repository: [SysCd/kubernetesProject](https://github.com/SysCd/kubernetesProject).
 
