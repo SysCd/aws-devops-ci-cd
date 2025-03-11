@@ -109,6 +109,37 @@ _Caption: Illustrates the CI/CD workflow: GitHub Actions builds and pushes a Doc
   5. **Kubernetes Creates Pod:** EKS orchestrates the Pod deployment.
   6. **Run Container:** Docker container runs the Nginx app on port 80.
 
+## Cost Optimization Strategy
+
+### Overview
+
+To maintain low costs while ensuring the necessary resources for the EKS Pods in this AWS DevOps CI/CD project, a cost optimization strategy was implemented. The transition from `t3.micro` to `t3.small` EKS Worker Node instances was made to support the project’s requirements, given the constraints of the AWS Free Tier.
+
+### Decision and Rationale
+
+- **Initial Setup:** The project began with `t3.micro` instances (2 vCPUs, 1 GiB memory), which are within the AWS Free Tier (750 hours/month). However, this limited capacity was insufficient for running multiple Pods (e.g., `nginx-deployment.yml` with `replicas: 2`).
+- **Upgrade to `t3.small`:** Upgrading to `t3.small` (2 vCPUs, 2 GiB memory) provided adequate resources (20% baseline performance, 24 CPU credits/hr) while incurring a minimal cost outside the Free Tier boundary.
+- **Cost Impact:** This upgrade resulted in a small hourly cost (`$0.012` on-demand, `$0.008` 3-year reserved), balanced against operational efficiency.
+
+### Cost Optimization Measures
+
+- **Budget Alerts:** AWS Budgets were set up to monitor spending and receive email notifications when thresholds are exceeded.
+  - Example Budgets:
+    | Name | Threshold | Budget | Amount Used |
+    |-----------------|-----------|---------|-------------|
+    | My Monthly Cost Budget | OK | $10.00 | $0.75 |
+    | My Monthly Cost Budget 15 | OK | $15.00 | $0.75 |
+    | My Monthly Cost Budget 20 | OK | $20.00 | $0.75 |
+- **Resource Efficiency:** Pod resource `requests` and `limits` were considered to optimize usage on the `t3.small` instance (e.g., `cpu: "100m"`, `memory: "100Mi"` per Pod).
+
+### Purpose
+
+This strategy ensures cost-effective operation within a small budget while supporting the EKS cluster’s scalability and reliability, aligning with the project’s goal of a resilient CI/CD pipeline.
+
+### Integration with Project
+
+The `t3.small` instances, defined in `eks-node-group.tf`, support the deployment of Pods (e.g., Nginx) as outlined in `nginx-deployment.yml`, while budget alerts help manage costs as the project scales.
+
 ## Additional Kubernetes Example: KubernetesProject
 
 As an additional example of Kubernetes and EKS deployment, the `KubernetesProject` repository showcases a simple Nginx web server hosted on an EKS cluster in `eu-west-2`. This project demonstrates manual deployment of a Kubernetes cluster, including pod and service configuration, and exposes the web server via a LoadBalancer. The full project, including its architecture blueprint, can be found in the separate repository: [SysCd/kubernetesProject](https://github.com/SysCd/kubernetesProject).
