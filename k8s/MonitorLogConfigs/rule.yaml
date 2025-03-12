@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: example-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: example
+      rules:
+        - alert: HighPodCpu
+          expr: sum(rate(container_cpu_usage_seconds_total{namespace="monitoring"}[5m])) > 0.5
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High CPU usage detected in monitoring namespace"

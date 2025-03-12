@@ -5,7 +5,7 @@ resource "aws_eks_node_group" "eks_nodes" {  #Creates an EKS node group (EC2 wor
   subnet_ids      = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]  #Deploys nodes in two public subnets (eu-west-2a, eu-west-2b) for high availability
   instance_types  = [var.node_instance_type]  #Sets EC2 instance type (t3.small with 2 vCPUs, 2GB RAM)
   scaling_config {  #Define auto scaling settings for the node group
-    desired_size = 1  #Initial number of nodes: 1
+    desired_size = 2  #Initial number of nodes: 2
     min_size     = 1  #Minimum number of nodes: 1
     max_size     = 2  #Maximum number of nodes: 2
   }

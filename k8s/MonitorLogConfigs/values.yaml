@@ -1,0 +1,40 @@
+prometheus:
+  enabled: true
+  prometheusSpec:
+    serviceMonitorNamespaceSelector: {}
+    serviceMonitorSelector: {}
+    storageSpec:
+      emptyDir: {}
+    volumeClaimTemplate: ""
+    replicas: 1
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        cpu: 400m
+        memory: 512Mi
+    serviceMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+grafana:
+  enabled: true
+  service:
+    type: LoadBalancer # Explicitly set to LoadBalancer
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    config:
+      route:
+        receiver: "default-receiver"
+      receivers:
+        - name: "default-receiver"
+          email_configs:
+            - to: "your-email@example.com"
+              from: "alerts@example.com"
+              smarthost: "smtp.example.com:587"
+              auth_username: "username"
+              auth_password: "password"
+kube-state-metrics:
+  enabled: true
+nodeExporter:
+  enabled: true

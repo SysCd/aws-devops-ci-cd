@@ -18,7 +18,7 @@ variable "eks_cluster_name" {  #Declares a variable for the EKS cluster name
 }
 
 variable "node_instance_type" {  #Declares a variable for the node instance type
-  default = "t3.small"  #Sets default instance type to t3.small (2 vCPUs, 2GB RAM)
+  default = "t3.mediuml"  #Sets default instance type to t3.medium (2 vCPUs, 4GB RAM)
 }
 
 # VPC Configuration
