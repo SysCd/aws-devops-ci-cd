@@ -109,19 +109,20 @@ _Caption: Illustrates the CI/CD workflow: GitHub Actions builds and pushes a Doc
   5. **Kubernetes Creates Pod:** EKS orchestrates the Pod deployment.
   6. **Run Container:** Docker container runs the Nginx app on port 80.
 
-## Cost Optimization Strategy
+# Cost Optimization Strategy
 
-### Overview
+## Overview
 
-To maintain low costs while ensuring the necessary resources for the EKS Pods in this AWS DevOps CI/CD project, a cost optimization strategy was implemented. The transition from `t3.micro` to `t3.small` EKS Worker Node instances was made to support the project’s requirements, given the constraints of the AWS Free Tier.
+To maintain low costs while ensuring the necessary resources for the EKS Pods in this AWS DevOps CI/CD project, a cost optimization strategy was implemented. The transition from `t3.micro` to `t3.small`, and now to `t3.medium` EKS Worker Node instances, was made to support the growing demands of the cluster, including monitoring with Prometheus, Grafana, and nginx, given the constraints of the AWS Free Tier and resource limitations.
 
-### Decision and Rationale
+## Decision and Rationale
 
-- **Initial Setup:** The project began with `t3.micro` instances (2 vCPUs, 1 GiB memory), which are within the AWS Free Tier (750 hours/month). However, this limited capacity was insufficient for running multiple Pods (e.g., `nginx-deployment.yml` with `replicas: 2`).
-- **Upgrade to `t3.small`:** Upgrading to `t3.small` (2 vCPUs, 2 GiB memory) provided adequate resources (20% baseline performance, 24 CPU credits/hr) while incurring a minimal cost outside the Free Tier boundary.
-- **Cost Impact:** This upgrade resulted in a small hourly cost (`$0.012` on-demand, `$0.008` 3-year reserved), balanced against operational efficiency.
+- **Initial Setup:** The project began with `t3.micro` instances (2 vCPUs, 1 GiB memory), within the AWS Free Tier (750 hours/month), but this capacity was insufficient for multiple Pods (e.g., `nginx-deployment.yml` with `replicas: 2`).
+- **Upgrade to `t3.small`:** Moving to `t3.small` (2 vCPUs, 2 GiB memory) provided better resources (20% baseline performance, 24 CPU credits/hr) and supported initial scaling, incurring a minimal cost outside the Free Tier (`$0.012` on-demand, `$0.008` 3-year reserved).
+- **Upgrade to `t3.medium`:** Due to resource constraints (e.g., memory usage nearing 83% on `t3.small` with 14 pods and 20 containers), the cluster was upgraded to `t3.medium` (2 vCPUs, 4 GiB memory) to handle increased load (40% baseline performance, 24 CPU credits/hr). This move was necessary to prevent service downtime, supporting monitoring tools like Prometheus and Grafana.
+- **Cost Impact:** The `t3.medium` upgrade increases the hourly cost to approximately `$0.0416` on-demand (or ~$1.00/day for 2 instances, ~£0.79/day at 1 USD = 0.79 GBP), but it ensures stability and scalability.
 
-### Cost Optimization Measures
+## Cost Optimization Measures
 
 - **Budget Alerts:** AWS Budgets were set up to monitor spending and receive email notifications when thresholds are exceeded.
 
@@ -129,19 +130,19 @@ To maintain low costs while ensuring the necessary resources for the EKS Pods in
 
     | Name                      | Threshold | Budget | Amount Used |
     | ------------------------- | --------- | ------ | ----------- |
-    | My Monthly Cost Budget    | OK        | $10.00 | $0.75       |
-    | My Monthly Cost Budget 15 | OK        | $15.00 | $0.75       |
-    | My Monthly Cost Budget 20 | OK        | $20.00 | $0.75       |
+    | My Monthly Cost Budget    | OK        | $10.00 | $1.50       |
+    | My Monthly Cost Budget 15 | OK        | $15.00 | $1.50       |
+    | My Monthly Cost Budget 20 | OK        | $20.00 | $1.50       |
 
-- **Resource Efficiency:** Pod resource `requests` and `limits` were considered to optimize usage on the `t3.small` instance (e.g., `cpu: "100m"`, `memory: "100Mi"` per Pod).
+- **Resource Efficiency:** Pod resource `requests` and `limits` are adjusted to optimize usage on the `t3.medium` instance (e.g., `cpu: "100m"`, `memory: "128Mi"` for Prometheus, `cpu: "50m"`, `memory: "64Mi"` for Grafana).
 
-### Purpose
+## Purpose
 
-This strategy ensures cost-effective operation within a small budget while supporting the EKS cluster’s scalability and reliability, aligning with the project’s goal of a resilient CI/CD pipeline.
+This strategy ensures cost-effective operation within a small budget while supporting the EKS cluster’s scalability and reliability, aligning with the project’s goal of a resilient CI/CD pipeline and robust monitoring with Prometheus and Grafana.
 
-### Integration with Project
+## Integration with Project
 
-The `t3.small` instances, defined in `eks-node-group.tf`, support the deployment of Pods (e.g., Nginx) as outlined in `nginx-deployment.yml`, while budget alerts help manage costs as the project scales.
+The `t3.medium` instances, updated in `eks-node-group.tf` (e.g., `instance_types = ["t3.medium"]`), support the deployment of Pods (e.g., Nginx in `nginx-deployment.yml`) and the monitoring stack (Prometheus, Grafana), while budget alerts help manage costs as the project scales with increased resource demands.
 
 ## Additional Kubernetes Example: KubernetesProject
 
