@@ -149,7 +149,7 @@ The `t3.medium` instances, updated in `eks-node-group.tf` (e.g., `instance_types
 As an additional example of Kubernetes and EKS deployment, the `KubernetesProject` repository showcases a simple Nginx web server hosted on an EKS cluster in `eu-west-2`. This project demonstrates manual deployment of a Kubernetes cluster, including pod and service configuration, and exposes the web server via a LoadBalancer. The full project, including its architecture blueprint, can be found in the separate repository: [SysCd/kubernetesProject](https://github.com/SysCd/kubernetesProject).
 
 - **Architecture Blueprint:**
-  ![KubernetesProject EKS Blueprint: eu-west-2](https://github.com/SysCd/kubernetesProject/raw/main/KubernetesProject_EKS_Blueprint.png)  
+  ![KubernetesProject EKS Blueprint: eu-west-2](https://github.com/SysCd/kubernetesProject/raw/main/Kdiagram.png)  
   _Caption: Illustrates the Kubernetes cluster setup on EKS, with an Nginx pod exposed via a LoadBalancer._
 
 - **Key Features:**
