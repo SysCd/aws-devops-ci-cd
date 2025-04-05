@@ -1,0 +1,29 @@
+groups:
+  - name: nginx-alerts
+    rules:
+      - alert: NginxExporterDown
+        expr: up{job="nginx"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "NGINX Exporter is down"
+          description: "Exporter {{ $labels.instance }} has been unreachable for 1 minute."
+
+      - alert: HighActiveConnections
+        expr: nginx_connections_active > 50
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High active connections"
+          description: "NGINX is serving more than 50 connections (current: {{ $value }})"
+
+      - alert: TestAlert_AlwaysFires
+        expr: vector(1)
+        for: 10s
+        labels:
+          severity: info
+        annotations:
+          summary: "This is a test alert"
+          description: "It always fires just to validate the setup"

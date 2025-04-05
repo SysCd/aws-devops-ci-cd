@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+  labels:
+    app: alertmanager
+data:
+  alertmanager.yml: |
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: discord-notifications
+
+receivers:
+  - name: discord-notifications
+    webhook_configs:
+      - send_resolved: true
+        url: http://alertmanager-discord.default.svc.cluster.local:9094

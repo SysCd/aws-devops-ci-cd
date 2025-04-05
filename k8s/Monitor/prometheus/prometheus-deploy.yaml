@@ -8,6 +8,15 @@ data:
     global:
       scrape_interval: 15s
 
+    alerting:
+      alertmanagers:
+        - static_configs:
+            - targets:
+                - alertmanager.default.svc.cluster.local:9093
+
+    rule_files:
+      - /etc/prometheus/alert.rules.yaml
+
     scrape_configs:
       - job_name: 'prometheus'
         static_configs:
@@ -16,6 +25,7 @@ data:
       - job_name: 'nginx'
         static_configs:
           - targets: ['nginx-exporter.default.svc.cluster.local:9113']
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,11 +52,19 @@ spec:
             - containerPort: 9090
           volumeMounts:
             - name: config-volume
-              mountPath: /etc/prometheus
+              mountPath: /etc/prometheus/prometheus.yml
+              subPath: prometheus.yml
+            - name: rules-volume
+              mountPath: /etc/prometheus/alert.rules.yaml
+              subPath: alert.rules.yaml
       volumes:
         - name: config-volume
           configMap:
             name: prometheus-config
+        - name: rules-volume
+          configMap:
+            name: prometheus-alerts
+
 ---
 apiVersion: v1
 kind: Service

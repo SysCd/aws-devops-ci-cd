@@ -161,3 +161,42 @@ As an additional example of Kubernetes and EKS deployment, the `KubernetesProjec
   - **Configuration:** Defined in `Web-Pod.yaml` and `Web-Service.yaml`.
 
 - **Purpose:** This project complements the CI/CD pipeline by showing a manual EKS deployment, focusing on Kubernetes fundamentals and pod exposure, with a detailed blueprint diagram.
+
+## 📊 Monitoring & Alerting (Preview)
+
+![Logo](./images/monitoringlogo.png)
+
+This section showcases how monitoring and alerting are integrated into the AWS DevOps CI/CD pipeline using Prometheus, Grafana, and Alertmanager.
+
+### Workflow Overview
+
+- **Kubernetes Cluster**  
+  Exposes key metrics such as pod health, CPU/memory usage, and NGINX connection stats.
+
+- **Prometheus**  
+  Collects and stores metrics from NGINX Exporter and Kubernetes pods. Custom rules are used to trigger alerts on conditions like:
+
+  - `nginx_exporter_down`
+  - `nginx_connections_active > 50`
+
+- **Grafana**  
+  Visualizes Prometheus data through rich dashboards with real-time charts for:
+
+  - Pod performance
+  - Resource utilization
+  - NGINX traffic
+
+- **Alertmanager**  
+  Handles alert routing for Prometheus. Alerts are sent to a **Discord Webhook** for real-time visibility.
+
+- **Discord Notifications**  
+  Alerts from Prometheus (via Alertmanager) appear in a dedicated Discord channel for fast incident awareness.
+
+### Key Features
+
+- NGINX monitored via `/stub_status` using `nginx-prometheus-exporter`
+- Prometheus custom alert rules configured via `alert.rules.yaml`
+- Discord integration tested with `TestAlert_AlwaysFires`
+- Modular YAMLs: Prometheus, Grafana, and Alertmanager deployments are separated and reusable
+
+> ℹ️ _Full monitoring setup, dashboards, and example alerts will be expanded in the next update._
