@@ -1,20 +1,31 @@
-apiVersion: apps/v1 #Specifies the Kubernetes API version for Deployments (apps/v1 is current standard)
-kind: Deployment #Defines this resource as a Kubernetes Deployment
-metadata: #Provides metadata about the deployment
-  name: nginx-deployment #Names the deployment "nginx-deployment" in the cluster
-
-spec: #Defines the desired state of the deployment
-  replicas: 2 #Sets the number of pod replicas to 2 for high availability
-  selector: #Defines how to identify the pods to manage
-    matchLabels: #Matches pods based on labels
-      app: nginx #Targets pods labeled with "app: nginx"
-  template: #Describes the pod template for replication
-    metadata: #Provides metadata for each pod
-      labels: #Adds labels to the pods
-        app: nginx #Labels each pod with "app: nginx" for selector matching
-    spec: #Defines the pod specification
-      containers: #Lists the containers to run in each pod
-        - name: nginx #Names the container "nginx"
-          image: 207567758913.dkr.ecr.eu-west-2.amazonaws.com/nginx-app:latest #Uses the latest Nginx image from your ECR repository
-          ports: #Configures the container's ports
-            - containerPort: 80 #Exposes port 80 (HTTP) inside the container
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          args:
+            ["/bin/sh", "-c", "nginx -g 'daemon off;' -c /etc/nginx/nginx.conf"]
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config

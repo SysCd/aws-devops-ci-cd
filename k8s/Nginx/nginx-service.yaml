@@ -1,38 +1,17 @@
-apiVersion: v1 #Specifies the Kubernetes API version (v1 is standard for services)
-kind: Service #Defines this resource as a Kubernetes Service
-
-metadata: #Provides metadata about the service
-  creationTimestamp: "2025-02-11T20:32:09Z" #Records when the service was created (future date, likely a typo or example)
-  finalizers: #Lists actions to take before deletion
-    - service.kubernetes.io/load-balancer-cleanup #Ensures AWS load balancer is cleaned up on deletion
-  labels: #Adds labels for identification and selection
-    app: nginx #Labels the service as part of the "nginx" application
-  name: nginx #Names the service "nginx" in the Kubernetes cluster
-  namespace: default #Places the service in the "default" namespace
-  resourceVersion: "2975" #Tracks the resource version (managed by Kubernetes)
-  uid: 4bb16cc9-30e1-420f-b4de-986b9e366797 #Unique ID assigned by Kubernetes
-
-spec: #Defines the desired state of the service
-  allocateLoadBalancerNodePorts: true #Enables node port allocation for the load balancer
-  clusterIP: 172.20.226.197 #Assigns an internal IP for cluster communication
-  clusterIPs: #Lists all cluster IPs (single IP in this case)
-    - 172.20.226.197 #Same as clusterIP, for IPv4 support
-  externalTrafficPolicy: Cluster #Routes external traffic to all nodes, balancing load
-  internalTrafficPolicy: Cluster #Routes internal traffic to all nodes
-  ipFamilies: #Specifies IP family support
-    - IPv4 #Uses IPv4 for networking
-  ipFamilyPolicy: SingleStack #Restricts to a single IP family (IPv4)
-  ports: #Configures the ports for traffic
-    - nodePort: 32580 #Maps external traffic to port 32580 on nodes
-      port: 80 #Exposes service on port 80 (HTTP standard)
-      protocol: TCP #Uses TCP protocol for traffic
-      targetPort: 80 #Forwards traffic to port 80 on the Nginx pods
-  selector: #Defines which pods this service targets
-    app: nginx #Targets pods labeled with "app: nginx" (your Nginx deployment)
-  sessionAffinity: None #Disables sticky sessions (traffic not tied to one pod)
-  type: LoadBalancer #Creates an AWS LoadBalancer to expose the service externally
-
-status: #Reports the current state of the service
-  loadBalancer: #Details about the load balancer
-    ingress: #Lists entry points for external access
-      - hostname: a4bb16cc930e1420fb4de986b9e36679-369917909.eu-west-2.elb.amazonaws.com #Provides the AWS ELB hostname for external access
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx # Service name used in DNS (nginx.default.svc.cluster.local)
+  namespace: default # Assuming you are working in the default namespace
+  # You can add labels for the service itself if needed:
+  # labels:
+  #   app: nginx
+spec:
+  type: LoadBalancer # Creates an external Load Balancer (like AWS ELB). Use ClusterIP if only internal access is needed.
+  selector:
+    app: nginx # <<< CRITICAL: This MUST exactly match the labels on the pods created by your nginx-deployment
+  ports:
+    - name: http # Optional name for the port
+      protocol: TCP
+      port: 80 # Port the Service will listen on (e.g., http://nginx:80)
+      targetPort: 80 # Port the Nginx container inside the pods listens on (from your Deployment's containerPort)
